@@ -10,7 +10,10 @@ const expressLayouts = require("express-ejs-layouts");
 const errorMiddleware = require("./middleware/error");
 
 app.use(
-  cors()
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true
+  })
 );
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
