@@ -10,10 +10,7 @@ const expressLayouts = require("express-ejs-layouts");
 const errorMiddleware = require("./middleware/error");
 
 app.use(
-  cors({
-    origin: "https://quiz-app-next-pplv.vercel.app",
-    credentials: true,
-  })
+  cors()
 );
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
