@@ -1,0 +1,389 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title">
+                    <%= title %>
+                </h4>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form method="post" action="/admin/<%= module_slug %>/add" enctype="multipart/form-data">
+                            <!-- Existing form fields here -->
+
+                            <div class="row">
+                                <div class="col-lg-12 float-left">
+                                    <div class="mb-3">
+                                        <label for="simpleinput" class="form-label">Desc</label>
+                                        <textarea class="form-control" id="editor" name="description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 float-left">
+                                    <div class="mb-3">
+                                        <label for="simpleinput" class="form-label">Meta Title</label>
+                                        <input type="text" id="simpleinput" name="meta_title" class="form-control"
+                                            value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 float-left">
+                                    <div class="mb-3">
+                                        <label for="simpleinput" class="form-label">Meta Keyword</label>
+                                        <textarea class="form-control" name="meta_keyword"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 float-left">
+                                    <div class="mb-3">
+                                        <label for="simpleinput" class="form-label">Meta Description</label>
+                                        <textarea class="form-control" name="meta_description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 float-left">
+                                    <div class="mb-3">
+                                        <label for="simpleinput" class="form-label">Status</label>
+                                        <select class="form-control" name="status">
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 float-left">
+                            <button class="btn btn-primary" type="submit">Submit</button>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 float-left">
+                                <button type="button" class="btn btn-secondary" id="addQuestionBtn">Add
+                                    Question</button>
+                            </div>
+                        </div>
+
+                        <!-- Question List -->
+                        <div class="row mt-3">
+                            <div class="col-lg-12">
+                                <h5>Questions:</h5>
+                                <table id="questionsTable"
+                                    class="table table-bordered table-bordered dt-responsive nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No.</th>
+                                            <th>Questions</th>
+                                            <th>Options</th>
+                                            <th>Action</th> <!-- Edit and Delete Column -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Please add questions</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Question Add Modal -->
+                        <div id="questionModal" style="display: none;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Add Question</h5>
+                                    <button type="button" id="closeAddModal" class="close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="questionText" class="form-label">Question</label>
+                                        <input type="text" id="questionText" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="optionType" class="form-label">Option Type</label>
+                                        <select id="optionType" class="form-control">
+                                            <option value="radio">Radio Button</option>
+                                            <option value="checkbox">Checkbox</option>
+                                        </select>
+                                    </div>
+                                    <div id="optionsContainer">
+                                        <!-- Dynamic option inputs will be added here -->
+                                    </div>
+                                    <button type="button" id="addOptionBtn" class="btn btn-primary">Add Option</button>
+                                    <button type="button" id="addQuestionToList" class="btn btn-primary">Add
+                                        Question</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Question Edit Modal -->
+                        <div id="editQuestionModal" style="display: none;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Question</h5>
+                                    <button type="button" id="closeEditModal" class="close">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="editQuestionText" class="form-label">Question</label>
+                                        <input type="text" id="editQuestionText" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOptionA" class="form-label">Option A</label>
+                                        <input type="text" id="editOptionA" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOptionB" class="form-label">Option B</label>
+                                        <input type="text" id="editOptionB" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOptionC" class="form-label">Option C</label>
+                                        <input type="text" id="editOptionC" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editOptionD" class="form-label">Option D</label>
+                                        <input type="text" id="editOptionD" class="form-control">
+                                    </div>
+                                    <button type="button" id="saveEditQuestion" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Add some basic styles for the modals -->
+                        <style>
+                            #questionModal,
+                            #editQuestionModal {
+                                position: fixed;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                width: 400px;
+                                padding: 20px;
+                                background-color: white;
+                                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+                                z-index: 1000;
+                            }
+
+                            .modal-content .close {
+                                float: right;
+                                font-size: 20px;
+                                cursor: pointer;
+                            }
+
+                            .modal-header {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                border-bottom: 1px solid #dee2e6;
+                                padding-bottom: 10px;
+                                margin-bottom: 10px;
+                            }
+
+                            .modal-body {
+                                padding: 10px 0;
+                            }
+
+                            .modal-title {
+                                margin: 0;
+                            }
+
+                            .form-control {
+                                margin-bottom: 10px;
+                            }
+                        </style>
+
+                        <!-- JavaScript to handle the modals and adding/editing/deleting questions -->
+                        <script>
+                            let questionCounter = 1;
+                            let currentRow;
+                            const maxOptions = 4;
+
+                            // Show modal to add a new question
+                            document.getElementById('addQuestionBtn').addEventListener('click', function () {
+                                document.getElementById('questionModal').style.display = 'block';
+                            });
+
+                            // Close the "Add Question" modal
+                            document.getElementById('closeAddModal').addEventListener('click', function () {
+                                document.getElementById('questionModal').style.display = 'none';
+                                resetAddQuestionModal();
+                            });
+
+                            // Add question to the table
+                            document.getElementById('addQuestionToList').addEventListener('click', function () {
+                                const questionText = document.getElementById('questionText').value;
+                                const options = getOptions();
+
+                                if (questionText && options.length > 0) {
+                                    const questionItem = document.createElement('tr');
+                                    questionItem.innerHTML = `
+                                        <td>${questionCounter++}</td>
+                                        <td>${questionText}</td>
+                                        <td>${options.map((option, index) => `${String.fromCharCode(65 + index)}: ${option}`).join(', ')}</td>
+                                        <td>
+                                            <button class="btn btn-warning edit-btn">Edit</button>
+                                            <button class="btn btn-danger delete-btn">Delete</button>
+                                        </td>
+                                    `;
+
+                                    const questionsTable = document.getElementById('questionsTable').getElementsByTagName('tbody')[0];
+
+                                    // Clear placeholder text if any
+                                    if (questionsTable.children[0].children[0].textContent === 'Please add questions') {
+                                        questionsTable.innerHTML = '';
+                                    }
+
+                                    questionsTable.appendChild(questionItem);
+
+                                    // Clear input fields
+                                    resetAddQuestionModal();
+
+                                    // Hide the modal
+                                    document.getElementById('questionModal').style.display = 'none';
+                                } else {
+                                    alert('Please enter the question and at least one option.');
+                                }
+                            });
+
+                            // Close the "Edit Question" modal
+                            document.getElementById('closeEditModal').addEventListener('click', function () {
+                                document.getElementById('editQuestionModal').style.display = 'none';
+                            });
+
+                            // Save the edited question
+                            document.getElementById('saveEditQuestion').addEventListener('click', function () {
+                                const questionText = document.getElementById('editQuestionText').value;
+                                const options = getOptions(true);
+
+                                if (questionText && options.length > 0) {
+                                    currentRow.innerHTML = `
+                                        <td>${currentRow.children[0].textContent}</td>
+                                        <td>${questionText}</td>
+                                        <td>${options.map((option, index) => `${String.fromCharCode(65 + index)}: ${option}`).join(', ')}</td>
+                                        <td>
+                                            <button class="btn btn-warning edit-btn">Edit</button>
+                                            <button class="btn btn-danger delete-btn">Delete</button>
+                                        </td>
+                                    `;
+
+                                    // Hide the edit modal
+                                    document.getElementById('editQuestionModal').style.display = 'none';
+                                } else {
+                                    alert('Please enter the question and at least one option.');
+                                }
+                            });
+
+                            // Handle table actions (edit or delete)
+                            document.getElementById('questionsTable').addEventListener('click', function (e) {
+                                if (e.target && e.target.classList.contains('edit-btn')) {
+                                    const row = e.target.closest('tr');
+                                    currentRow = row;
+
+                                    document.getElementById('editQuestionText').value = row.children[1].textContent;
+                                    const options = row.children[2].textContent.split(', ');
+                                    options.forEach((option, index) => {
+                                        if (index < maxOptions) {
+                                            document.getElementById(`editOption${String.fromCharCode(65 + index)}`).value = option.split(': ')[1] || '';
+                                        }
+                                    });
+
+                                    document.getElementById('editQuestionModal').style.display = 'block';
+                                } else if (e.target && e.target.classList.contains('delete-btn')) {
+                                    const row = e.target.closest('tr');
+                                    row.remove();
+                                    updateSerialNumbers();
+                                }
+                            });
+
+                            // Update question serial numbers
+                            function updateSerialNumbers() {
+                                const rows = document.querySelectorAll('#questionsTable tbody tr');
+                                questionCounter = 1;
+                                rows.forEach(row => {
+                                    row.children[0].textContent = questionCounter++;
+                                });
+
+                                // Show placeholder text if the table is empty
+                                const questionsTable = document.getElementById('questionsTable').getElementsByTagName('tbody')[0];
+                                if (questionsTable.children.length === 0) {
+                                    const placeholderRow = document.createElement('tr');
+                                    placeholderRow.innerHTML = `<td colspan="4">Please add questions</td>`;
+                                    questionsTable.appendChild(placeholderRow);
+                                }
+                            }
+
+                            // Add an input field for options
+                            document.getElementById('addOptionBtn').addEventListener('click', function () {
+                                const optionsContainer = document.getElementById('optionsContainer');
+                                const currentOptionsCount = optionsContainer.children.length;
+
+                                if (currentOptionsCount < maxOptions) {
+                                    const optionIndex = currentOptionsCount + 1;
+
+                                    // Create a container for each option input and its delete button
+                                    const optionContainer = document.createElement('div');
+                                    optionContainer.className = 'option-container';
+
+                                    const newOption = document.createElement('input');
+                                    newOption.type = 'text';
+                                    newOption.className = 'form-control';
+                                    newOption.placeholder = `Option-${optionIndex}`;
+                                    newOption.id = `option-${optionIndex}`;
+
+                                    const deleteBtn = document.createElement('button');
+                                    deleteBtn.className = 'btn btn-danger delete-option-btn';
+                                    deleteBtn.textContent = 'X';
+                                    deleteBtn.addEventListener('click', function () {
+                                        optionContainer.remove();
+                                        updateOptionButtons();
+                                    });
+
+                                    optionContainer.appendChild(newOption);
+                                    optionContainer.appendChild(deleteBtn);
+                                    optionsContainer.appendChild(optionContainer);
+
+                                    // Disable the button if the limit is reached
+                                    if (currentOptionsCount + 1 === maxOptions) {
+                                        document.getElementById('addOptionBtn').disabled = true;
+                                    }
+                                }
+                            });
+
+                            // Update the "Add Option" button state
+                            function updateOptionButtons() {
+                                const optionsContainer = document.getElementById('optionsContainer');
+                                const currentOptionsCount = optionsContainer.children.length;
+
+                                if (currentOptionsCount < maxOptions) {
+                                    document.getElementById('addOptionBtn').disabled = false;
+                                }
+                            }
+
+                            // Helper function to get options
+                            function getOptions(isEdit = false) {
+                                const optionsContainer = document.getElementById(isEdit ? 'editOptionsContainer' : 'optionsContainer');
+                                return Array.from(optionsContainer.querySelectorAll('input')).map(input => input.value).filter(value => value.trim() !== '');
+                            }
+
+                            // Reset the "Add Question" modal
+                            function resetAddQuestionModal() {
+                                document.getElementById('questionText').value = '';
+                                const optionsContainer = document.getElementById('optionsContainer');
+                                optionsContainer.innerHTML = '';
+                                document.getElementById('addOptionBtn').disabled = false;
+                            }
+                        </script>
+
+
+
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
