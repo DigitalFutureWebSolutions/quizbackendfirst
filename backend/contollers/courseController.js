@@ -248,10 +248,16 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
     );
     const totalBlogs = totalBlogsResult[0][0].count;
 
-    // Fetch blogs with pagination and filtering
+    // Fetch blogs with pagination, filtering, and category title
     const [blog_records] = await db.query(
-      "SELECT * FROM " + table_name + " order by id desc"
+      "SELECT b.id, b.title, b.slug, b.image, b.category_id, c.title AS category_title FROM " +
+        table_name +
+        " b LEFT JOIN categories c ON b.category_id = c.id ORDER BY b.id DESC"
     );
+
+    // const [blog_records] = await db.query(
+    //   "SELECT * FROM " + table_name + " order by id desc"
+    // );
 
     // Filter or process rows if needed
     const blogs = blog_records.map((row) => ({
@@ -260,6 +266,9 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
       slug: row.slug,
       image:
         process.env.BACKEND_URL + "/uploads/" + module_slug + "/" + row.image,
+      category_id: row.category_id, // Adding category_id
+
+      category_title: row.category_title, // Adding category title
     }));
 
     res.status(200).json({
