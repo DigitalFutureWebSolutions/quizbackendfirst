@@ -15,10 +15,16 @@ const module_slug = Model.module_slug;
 const module_layout = Model.module_layout;
 
 exports.addFrom = catchAsyncErrors(async (req, res, next) => {
+  // Fetch active categories
+  const activeCategories = await db.query(
+    `SELECT * FROM ${"categories"} WHERE status = 1 ORDER BY id DESC`
+  );
+  console.log(activeCategories);
   res.render(module_slug + "/add", {
     layout: module_layout,
     title: module_single_title + " " + module_add_text,
     module_slug,
+    activeCategories,
   });
 });
 
@@ -56,6 +62,8 @@ exports.createRecord = catchAsyncErrors(async (req, res, next) => {
     meta_description: req.body.meta_description,
     status: req.body.status,
     image: req.body.image,
+    category_id: req.body.category_id,
+    category_title: req.body.category_title,
     // created_at: created_at,
     updated_at: created_at,
     user_id: req.user.id,
@@ -73,7 +81,10 @@ exports.createRecord = catchAsyncErrors(async (req, res, next) => {
 
 exports.editForm = catchAsyncErrors(async (req, res, next) => {
   const blog = await QueryModel.findById(table_name, req.params.id, next);
-
+  // Fetch active categories
+  const activeCategories = await db.query(
+    `SELECT * FROM ${"categories"} WHERE status = 1 ORDER BY id DESC`
+  );
   if (!blog) {
     return;
   }
@@ -82,6 +93,7 @@ exports.editForm = catchAsyncErrors(async (req, res, next) => {
     title: module_single_title + " " + module_edit_text,
     blog,
     module_slug,
+    activeCategories,
   });
 });
 
@@ -104,6 +116,8 @@ exports.updateRecord = catchAsyncErrors(async (req, res, next) => {
     meta_description: req.body.meta_description,
     image: req.body.image,
     status: req.body.status,
+    category_id: req.body.category_id,
+    category_title: req.body.category_title,
     // created_at: created_at,
     updated_at: created_at,
     user_id: req.user.id,
