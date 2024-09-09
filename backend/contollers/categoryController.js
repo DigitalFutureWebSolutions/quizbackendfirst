@@ -5,6 +5,8 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ApiFeatures = require("../utils/apiFeatures");
 const db = require("../config/mysql_database");
 const Joi = require("joi");
+const { htmlToText } = require("html-to-text");
+const { format } = require("date-fns");
 
 const table_name = Model.table_name;
 const module_title = Model.module_title;
@@ -22,7 +24,7 @@ exports.addFrom = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-//create a new quiz
+//create a new blog
 exports.createRecord = catchAsyncErrors(async (req, res, next) => {
   try {
     await Model.insertSchema.validateAsync(req.body, {
@@ -61,7 +63,7 @@ exports.createRecord = catchAsyncErrors(async (req, res, next) => {
     user_id: req.user.id,
   };
 
-  const quiz = await QueryModel.saveData(table_name, insertData, next);
+  const blog = await QueryModel.saveData(table_name, insertData, next);
 
   req.flash("msg_response", {
     status: 200,
@@ -72,9 +74,9 @@ exports.createRecord = catchAsyncErrors(async (req, res, next) => {
 });
 
 exports.editForm = catchAsyncErrors(async (req, res, next) => {
-  const quiz = await QueryModel.findById(table_name, req.params.id, next);
+  const blog = await QueryModel.findById(table_name, req.params.id, next);
 
-  if (!quiz) {
+  if (!blog) {
     return;
   }
   res.render(module_slug + "/edit", {
@@ -248,6 +250,8 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
       slug: row.slug,
       image:
         process.env.BACKEND_URL + "/uploads/" + module_slug + "/" + row.image,
+      created_date: formatDate(row.created_at),
+      desc: truncateText(htmlToText(row.description), 200),
     }));
 
     res.status(200).json({
@@ -281,3 +285,13 @@ exports.apiGetSingleRecord = catchAsyncErrors(async (req, res, next) => {
     blog,
   });
 });
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + "..."; // Truncate and add ellipsis
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return format(date, "d MMM, yyyy"); // Format in m-d-Y
+}
