@@ -210,7 +210,7 @@ exports.apiGetSingleRecord = catchAsyncErrors(async(req, res,next) => {
     if (!blog) {
         return next(new ErrorHandler('Record not found', 500));
     }
-    blog.image = process.env.BACKEND_URL+'/uploads/'+module_slug+'/'+blog.image;
+    blog.image = process.env.BACKEND_URL+'/backend/uploads/'+module_slug+'/'+blog.image;
 
     res.status(200).json({
         success: true,

@@ -249,7 +249,7 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
       title: row.title,
       slug: row.slug,
       image:
-        process.env.BACKEND_URL + "/uploads/" + module_slug + "/" + row.image,
+        process.env.BACKEND_URL + "/backend/uploads/" + module_slug + "/" + row.image,
       created_date: formatDate(row.created_at),
       desc: truncateText(htmlToText(row.description), 200),
     }));
@@ -278,7 +278,7 @@ exports.apiGetSingleRecord = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Record not found", 500));
   }
   blog.image =
-    process.env.BACKEND_URL + "/uploads/" + module_slug + "/" + blog.image;
+    process.env.BACKEND_URL + "/backend/uploads/" + module_slug + "/" + blog.image;
 
   res.status(200).json({
     success: true,

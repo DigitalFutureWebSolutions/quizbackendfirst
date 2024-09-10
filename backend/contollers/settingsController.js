@@ -80,7 +80,7 @@ exports.apiGetSingleRecord = catchAsyncErrors(async(req, res,next) => {
     if (!settings) {
         return next(new ErrorHandler('Record not found', 500));
     }
-    settings.header_logo = process.env.BACKEND_URL+'/uploads/'+module_slug+'/'+settings.header_logo;
+    settings.header_logo = process.env.BACKEND_URL+'/backend/uploads/'+module_slug+'/'+settings.header_logo;
 
     res.status(200).json({
         success: true,

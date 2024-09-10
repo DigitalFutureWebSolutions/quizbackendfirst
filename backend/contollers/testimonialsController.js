@@ -200,7 +200,7 @@ exports.apiGetAllRecords = catchAsyncErrors(async(req,res, next) => {
             title: row.title,
             designation: row.designation,
             description: row.description,
-            image: process.env.BACKEND_URL+'/uploads/'+module_slug+'/'+row.image
+            image: process.env.BACKEND_URL+'/backend/uploads/'+module_slug+'/'+row.image
         }));
       
      
