@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false })); //For body parser
 app.use(bodyParser.json());
 app.use(expressLayouts);
 app.use(express.static(__dirname + "/public"));
-app.use("/uploads", express.static(path.resolve(__dirname, "../uploads")));
+app.use("/backend/uploads", express.static(path.resolve(__dirname, "../backend/uploads")));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
