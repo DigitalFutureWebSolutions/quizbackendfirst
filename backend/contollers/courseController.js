@@ -248,9 +248,9 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
     );
     const totalBlogs = totalBlogsResult[0][0].count;
 
-    // Fetch blogs with pagination, filtering, and category title
-    const [blog_records] = await db.query(
-      "SELECT b.id, b.title, b.slug, b.image, b.category_id, c.title AS category_title FROM " +
+     // Fetch blogs with pagination, filtering, and category title
+     const [blog_records] = await db.query(
+      "SELECT b.id, b.title, b.slug, b.image, b.category_id, b.description, c.title AS category_title FROM " +
         table_name +
         " b LEFT JOIN categories c ON b.category_id = c.id ORDER BY b.id DESC"
     );
@@ -265,10 +265,14 @@ exports.apiGetAllRecords = catchAsyncErrors(async (req, res, next) => {
       title: row.title,
       slug: row.slug,
       image:
-        process.env.BACKEND_URL + "/backend/uploads/" + module_slug + "/" + row.image,
+        process.env.BACKEND_URL +
+        "/backend/uploads/" +
+        module_slug +
+        "/" +
+        row.image,
       category_id: row.category_id, // Adding category_id
-
       category_title: row.category_title, // Adding category title
+      description: row.description, // Adding description
     }));
 
     res.status(200).json({
